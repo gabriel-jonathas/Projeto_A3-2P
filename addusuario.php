@@ -4,6 +4,7 @@ session_start();
 
 include('conexao.php');
 include('funcoes.php');
+include('validaradmingerente.php');
 
 $nome = isset($_POST['nome']) ? $_POST['nome'] : '' ;
 $cpf = isset($_POST['cpf']) ? $_POST['cpf'] : '' ;
@@ -25,7 +26,7 @@ if($nome <> NULL) {
         $insertusuario = "INSERT INTO usuario(nome, cpf, telefone) VALUES('$nome', '$cpf', '$telefone')";
         $queryusuario = mysqli_query($conexao, $insertusuario);
         $senhacriptografada = criptografar($senha);
-        $insertlogin = "INSERT INTO login (cpf, login, senha) VALUES('$cpf', '$login', '$senhacriptografada')";
+        $insertlogin = "INSERT INTO login (cpf, login, senha, nivel) VALUES('$cpf', '$login', '$senhacriptografada', 3)";
         $querylogin = mysqli_query($conexao, $insertlogin);
         echo '<script>alert("Usuário cadastrado com sucesso"); window.location="addusuario.php";</script>';
     } else {
@@ -48,6 +49,7 @@ if($nome <> NULL) {
 </head>
 <body>
     <center>
+        <h1>Novo Usuário</h1>
         <form id="form-addusuario" action="#" method="POST">
             Nome: <input type="text" name="nome" required><br>
             CPF: <input type="text" name="cpf" required><br>
